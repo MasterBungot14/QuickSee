@@ -1,0 +1,14 @@
+{
+  "name": "quicksee",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "QuickSee - Personal Web3 Tracker for Airdrops, Whitelists, Games & Release Dates",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["web3", "tracker", "airdrop", "whitelist", "crypto", "gaming"],
+  "author": "QuickSee",
+  "license": "MIT"
+}

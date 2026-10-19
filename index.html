@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="QuickSee — Personal Web3 tracker for airdrops, whitelists, games, tokens, and release dates. Paste once, organize quickly, and see what is coming next." />
+  <title>QuickSee — Personal Web3 Radar</title>
+
+  <!-- Google Fonts: Inter, Outfit, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+
+  <!-- App Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+  <div id="app-container">
+    <!-- Mobile Sidebar Backdrop -->
+    <div id="sidebar-backdrop" class="sidebar-backdrop"></div>
+
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar">
+      <div class="brand-section">
+        <div class="brand-logo-icon">
+          <div class="radar-ping"></div>
+          <svg style="width:20px;height:20px;color:var(--mint-primary);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"></circle>
+            <circle cx="12" cy="12" r="5"></circle>
+            <circle cx="12" cy="12" r="1.5" fill="currentColor"></circle>
+            <line x1="12" y1="12" x2="18.5" y2="5.5"></line>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">QuickSee</span>
+          <span class="brand-subtitle">Web3 Radar</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a class="nav-link active" data-view="dashboard" id="nav-item-dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="9"></rect>
+            <rect x="14" y="3" width="7" height="5"></rect>
+            <rect x="14" y="12" width="7" height="9"></rect>
+            <rect x="3" y="16" width="7" height="5"></rect>
+          </svg>
+          <span>Dashboard</span>
+          <span class="nav-badge alert" id="badge-overdue-count" style="display:none;">0 overdue</span>
+        </a>
+
+        <a class="nav-link" data-view="crypto" id="nav-item-crypto">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="8"></circle>
+            <line x1="12" y1="2" x2="12" y2="4"></line>
+            <line x1="12" y1="20" x2="12" y2="22"></line>
+            <line x1="9" y1="8.5" x2="15" y2="8.5"></line>
+            <line x1="9" y1="15.5" x2="15" y2="15.5"></line>
+            <path d="M10 12h4"></path>
+          </svg>
+          <span>Crypto Projects</span>
+          <span class="nav-badge mint" id="badge-crypto-count">0</span>
+        </a>
+
+        <a class="nav-link" data-view="games" id="nav-item-games">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+            <line x1="6" y1="12" x2="10" y2="12"></line>
+            <line x1="8" y1="10" x2="8" y2="14"></line>
+            <circle cx="15.5" cy="10.5" r="1" fill="currentColor"></circle>
+            <circle cx="17.5" cy="13.5" r="1" fill="currentColor"></circle>
+          </svg>
+          <span>Web3 Games</span>
+          <span class="nav-badge" id="badge-games-count">0</span>
+        </a>
+
+        <a class="nav-link" data-view="quick-paste" id="nav-item-quick-paste">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+            <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+            <path d="m9 14 2 2 4-4"></path>
+          </svg>
+          <span>Quick Paste</span>
+          <span class="nav-badge" style="background:var(--cyan-dim);color:var(--cyan-accent);border-color:var(--cyan-border);">Parser</span>
+        </a>
+
+        <a class="nav-link" data-view="calendar" id="nav-item-calendar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          <span>Calendar</span>
+          <span class="nav-badge" id="badge-calendar-count">0</span>
+        </a>
+
+        <a class="nav-link" data-view="settings" id="nav-item-settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          <span>Settings & Data</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="storage-status-card">
+          <div class="storage-status-info">
+            <div class="status-indicator-dot"></div>
+            <div>
+              <div class="storage-label">Local-Only Storage</div>
+              <div class="storage-subtext" id="sidebar-storage-size">0 KB used</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div id="main-wrapper">
+      <!-- Top Sticky Header -->
+      <header id="top-header">
+        <div class="header-left">
+          <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle Navigation">
+            <svg style="width:24px;height:24px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <div class="page-title-wrap">
+            <h1 class="page-heading" id="page-heading">Dashboard</h1>
+            <span class="page-subheading" id="page-subheading">Personal Web3 Radar for Airdrops, Whitelists & Games</span>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <div class="header-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="global-search-input" placeholder="Search projects, tokens, CA..." />
+          </div>
+
+          <button class="btn btn-primary btn-sm" id="header-btn-quick-paste" title="Parse copied X post">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+              <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+              <line x1="12" y1="11" x2="12" y2="17"></line>
+              <line x1="9" y1="14" x2="15" y2="14"></line>
+            </svg>
+            <span>Quick Paste</span>
+          </button>
+
+          <button class="btn btn-secondary btn-sm" id="header-btn-add-crypto" title="Manually add crypto project">
+            <span>+ Crypto</span>
+          </button>
+
+          <button class="btn btn-secondary btn-sm" id="header-btn-add-game" title="Manually add game">
+            <span>+ Game</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- View Containers -->
+      <main id="content-area">
+        <!-- ===================================== -->
+        <!-- VIEW 1: DASHBOARD -->
+        <!-- ===================================== -->
+        <section id="view-dashboard" class="view-section active">
+          <!-- Overdue & Imminent Alert Banner -->
+          <div id="dash-reminder-banner" class="reminders-alert-banner" style="display:none;">
+            <div class="banner-left">
+              <div class="banner-pulse-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:20px;height:20px;">
+                  <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+                  <line x1="12" y1="9" x2="12" y2="13"></line>
+                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+              </div>
+              <div>
+                <div class="banner-title"><span id="dash-reminder-count">0</span> Overdue Milestones Detected</div>
+                <div class="banner-desc">You have past claim, listing, or release dates that require attention or status update.</div>
+              </div>
+            </div>
+            <button class="btn btn-sm btn-secondary" onclick="window.QuickSeeApp.navigate('calendar')">Review in Calendar</button>
+          </div>
+
+          <!-- Metrics Grid -->
+          <div class="metrics-grid">
+            <div class="metric-card highlight-mint">
+              <div class="metric-header">
+                <span class="metric-label">Total Tracked</span>
+                <div class="metric-icon-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="12 6 12 12 16 14"></polygon></svg>
+                </div>
+              </div>
+              <div class="metric-value" id="dash-stat-total">0</div>
+              <div class="metric-sub">Crypto + Web3 Games</div>
+            </div>
+
+            <div class="metric-card highlight-purple">
+              <div class="metric-header">
+                <span class="metric-label">Whitelists</span>
+                <div class="metric-icon-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+                </div>
+              </div>
+              <div class="metric-value" id="dash-stat-whitelists">0</div>
+              <div class="metric-sub">Guaranteed & priority access</div>
+            </div>
+
+            <div class="metric-card highlight-mint">
+              <div class="metric-header">
+                <span class="metric-label">Airdrops</span>
+                <div class="metric-icon-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                </div>
+              </div>
+              <div class="metric-value" id="dash-stat-airdrops">0</div>
+              <div class="metric-sub">Points, testnets & claims</div>
+            </div>
+
+            <div class="metric-card highlight-cyan">
+              <div class="metric-header">
+                <span class="metric-label">Web3 Games</span>
+                <div class="metric-icon-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="6" cy="12" r="1"></circle><circle cx="18" cy="12" r="1"></circle></svg>
+                </div>
+              </div>
+              <div class="metric-value" id="dash-stat-games">0</div>
+              <div class="metric-sub">Live & upcoming launches</div>
+            </div>
+
+            <div class="metric-card highlight-warning">
+              <div class="metric-header">
+                <span class="metric-label">Upcoming</span>
+                <div class="metric-icon-wrap">
+                  <select id="dash-window-select" class="filter-select" style="padding:2px 6px;font-size:0.7rem;background:transparent;border:none;color:var(--text-secondary);">
+                    <option value="7">7 Days</option>
+                    <option value="30" selected>30 Days</option>
+                    <option value="90">90 Days</option>
+                  </select>
+                </div>
+              </div>
+              <div class="metric-value" id="dash-stat-upcoming">0</div>
+              <div class="metric-sub">Milestones within window</div>
+            </div>
+
+            <div class="metric-card highlight-error">
+              <div class="metric-header">
+                <span class="metric-label">Overdue</span>
+                <div class="metric-icon-wrap" style="color:var(--error);">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                </div>
+              </div>
+              <div class="metric-value" id="dash-stat-overdue" style="color:var(--error);">0</div>
+              <div class="metric-sub">Uncompleted past dates</div>
+            </div>
+          </div>
+
+          <!-- 2-Column Split: Milestone Radar & Status Distribution -->
+          <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:20px;margin-bottom:28px;">
+            <div class="card">
+              <div class="section-header-bar" style="margin-bottom:16px;">
+                <h3 style="font-size:1.1rem;display:flex;align-items:center;gap:8px;">
+                  <svg style="width:18px;height:18px;color:var(--mint-primary);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+                  <span>Milestone Radar</span>
+                </h3>
+                <a href="#" style="font-size:0.8rem;" onclick="window.QuickSeeApp.navigate('calendar');return false;">View Full Calendar &rarr;</a>
+              </div>
+              <div id="dash-upcoming-list">
+                <!-- Dynamically rendered -->
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="section-header-bar" style="margin-bottom:16px;">
+                <h3 style="font-size:1.1rem;">Status Distribution</h3>
+              </div>
+              <div id="dash-status-breakdown">
+                <!-- Dynamically rendered -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Recently Active / Updated Records Table -->
+          <div class="card">
+            <div class="section-header-bar" style="margin-bottom:16px;">
+              <h3 style="font-size:1.1rem;">Recently Updated Projects</h3>
+              <div style="display:flex;gap:10px;">
+                <button class="btn btn-sm btn-primary" id="dash-btn-paste">Quick Paste</button>
+                <button class="btn btn-sm btn-secondary" id="dash-btn-add-crypto">+ Crypto</button>
+                <button class="btn btn-sm btn-secondary" id="dash-btn-add-game">+ Game</button>
+              </div>
+            </div>
+            <div id="dash-recent-records">
+              <!-- Dynamically rendered -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================== -->
+        <!-- VIEW 2: CRYPTO PROJECTS -->
+        <!-- ===================================== -->
+        <section id="view-crypto" class="view-section">
+          <div class="section-header-bar">
+            <div class="section-title-wrap">
+              <h2 class="section-title">Crypto Projects</h2>
+              <span class="count-chip" id="crypto-total-badge">0 projects</span>
+            </div>
+            <button class="btn btn-primary" id="crypto-btn-add">+ Add Crypto Project</button>
+          </div>
+
+          <!-- Filter & Control Bar -->
+          <div class="filter-bar">
+            <div class="filter-search">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input type="text" id="crypto-search-input" placeholder="Search by name, token, network, or CA..." />
+            </div>
+
+            <select id="crypto-type-filter" class="filter-select">
+              <option value="all">All Types (Whitelist & Airdrop)</option>
+              <option value="Airdrop">Airdrops</option>
+              <option value="Whitelist">Whitelists</option>
+            </select>
+
+            <select id="crypto-status-filter" class="filter-select">
+              <option value="all">All Statuses</option>
+              <option value="Researching">Researching</option>
+              <option value="Joined">Joined</option>
+              <option value="Eligible">Eligible</option>
+              <option value="Upcoming">Upcoming</option>
+              <option value="Claimable">Claimable</option>
+              <option value="Listed">Listed</option>
+              <option value="Completed">Completed</option>
+              <option value="Paused">Paused</option>
+              <option value="Dropped">Dropped</option>
+              <option value="Not Eligible">Not Eligible</option>
+            </select>
+
+            <select id="crypto-network-filter" class="filter-select">
+              <option value="all">All Networks</option>
+            </select>
+
+            <select id="crypto-sort-select" class="filter-select">
+              <option value="updated">Recently Updated</option>
+              <option value="release">Release / TGE Date</option>
+              <option value="name">Project Name (A-Z)</option>
+              <option value="status">Status</option>
+              <option value="created">Date Added</option>
+            </select>
+
+            <button class="btn btn-secondary btn-sm" id="crypto-btn-reset" title="Reset all filters">Reset</button>
+
+            <div class="view-switch" style="margin-left:auto;">
+              <button class="view-switch-btn active" id="crypto-btn-table-view" title="Table View">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+              </button>
+              <button class="view-switch-btn" id="crypto-btn-grid-view" title="Card Grid View">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Projects List / Table -->
+          <div id="crypto-records-container">
+            <!-- Dynamically populated -->
+          </div>
+        </section>
+
+        <!-- ===================================== -->
+        <!-- VIEW 3: GAMES -->
+        <!-- ===================================== -->
+        <section id="view-games" class="view-section">
+          <div class="section-header-bar">
+            <div class="section-title-wrap">
+              <h2 class="section-title">Web3 Games</h2>
+              <span class="count-chip" id="games-total-badge">0 games</span>
+            </div>
+            <button class="btn btn-primary" id="games-btn-add">+ Add Web3 Game</button>
+          </div>
+
+          <!-- Filter & Control Bar -->
+          <div class="filter-bar">
+            <div class="filter-search">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input type="text" id="games-search-input" placeholder="Search by game name, token, network, CA..." />
+            </div>
+
+            <select id="games-status-filter" class="filter-select">
+              <option value="all">All Statuses</option>
+              <option value="Researching">Researching</option>
+              <option value="Joined">Joined</option>
+              <option value="Playing">Playing</option>
+              <option value="Upcoming">Upcoming</option>
+              <option value="Live">Live</option>
+              <option value="Token Upcoming">Token Upcoming</option>
+              <option value="Completed">Completed</option>
+              <option value="Paused">Paused</option>
+              <option value="Dropped">Dropped</option>
+            </select>
+
+            <select id="games-network-filter" class="filter-select">
+              <option value="all">All Networks</option>
+            </select>
+
+            <select id="games-sort-select" class="filter-select">
+              <option value="updated">Recently Updated</option>
+              <option value="release">Game Release Date</option>
+              <option value="name">Game Name (A-Z)</option>
+              <option value="price">Token Price</option>
+              <option value="created">Date Added</option>
+            </select>
+
+            <button class="btn btn-secondary btn-sm" id="games-btn-reset" title="Reset all filters">Reset</button>
+
+            <div class="view-switch" style="margin-left:auto;">
+              <button class="view-switch-btn active" id="games-btn-table-view" title="Table View">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+              </button>
+              <button class="view-switch-btn" id="games-btn-grid-view" title="Card Grid View">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Games List / Table -->
+          <div id="games-records-container">
+            <!-- Dynamically populated -->
+          </div>
+        </section>
+
+        <!-- ===================================== -->
+        <!-- VIEW 4: QUICK PASTE PARSER -->
+        <!-- ===================================== -->
+        <section id="view-quick-paste" class="view-section">
+          <div class="section-header-bar">
+            <div>
+              <h2 class="section-title">Quick Paste Announcement Parser</h2>
+              <p style="margin-top:4px;">Paste announcement text copied from X (Twitter), Telegram, or Discord. QuickSee identifies project names, networks, tokens, contract addresses, and dates with zero cloud dependencies.</p>
+            </div>
+          </div>
+
+          <div class="paste-container">
+            <!-- Left: Paste Input Area -->
+            <div class="paste-input-panel">
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+                <label class="form-label" style="font-size:0.9rem;">Announcement Text <span class="required">*</span></label>
+                <div style="display:flex;gap:6px;">
+                  <button class="btn btn-sm btn-outline-mint" id="paste-btn-sample-crypto" type="button">Sample Airdrop</button>
+                  <button class="btn btn-sm btn-secondary" id="paste-btn-sample-game" type="button">Sample Game</button>
+                  <button class="btn btn-sm btn-secondary" id="paste-btn-clear" type="button">Clear</button>
+                </div>
+              </div>
+
+              <textarea id="paste-text-input" class="paste-textarea" placeholder="Paste the full announcement text here...&#10;&#10;e.g.:&#10;🚀 Monad Public Testnet is live! $MON token TGE confirmed for 2026-11-20. CA: 0x0000000000000000000000000000000000001010 on Monad network..."></textarea>
+
+              <div class="form-group">
+                <label class="form-label">Optional Announcement / Post URL</label>
+                <input type="url" id="paste-url-input" class="form-control" placeholder="https://x.com/project_xyz/status/123456789" />
+              </div>
+
+              <div>
+                <label class="form-label" style="margin-bottom:8px;">Target Record Type</label>
+                <div class="paste-type-selector">
+                  <label class="type-radio-label">
+                    <input type="radio" name="paste-record-type" value="crypto" checked />
+                    <div class="radio-content">
+                      <span class="radio-title">Crypto Project</span>
+                      <span class="radio-desc">Airdrop points, whitelists, token TGEs</span>
+                    </div>
+                  </label>
+                  <label class="type-radio-label">
+                    <input type="radio" name="paste-record-type" value="game" />
+                    <div class="radio-content">
+                      <span class="radio-title">Web3 Game</span>
+                      <span class="radio-desc">Game releases, game tokens & floor prices</span>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <button class="btn btn-primary" id="paste-btn-parse" style="padding:12px;font-size:0.95rem;margin-top:8px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+                <span>Parse Announcement</span>
+              </button>
+            </div>
+
+            <!-- Right: Parsed Candidate Preview & Review Before Save -->
+            <div id="paste-review-container" class="parse-review-panel" style="display:none;">
+              <div class="review-header">
+                <div>
+                  <h3 style="font-size:1.15rem;">Review & Edit Extracted Fields</h3>
+                  <p style="font-size:0.75rem;">Verify detected fields before saving to your local database. No fields are guessed or fabricated.</p>
+                </div>
+                <div id="paste-confidence-indicator" class="confidence-indicator high">
+                  <span class="badge-dot"></span>
+                  <span>Extracted Fields</span>
+                </div>
+              </div>
+
+              <!-- Duplicate Match Alert (if any) -->
+              <div id="paste-duplicate-alert" class="duplicate-alert-box" style="display:none;">
+                <!-- Populated dynamically -->
+              </div>
+
+              <!-- Form fields generated dynamically -->
+              <div id="paste-parsed-fields">
+                <!-- Injected via JavaScript -->
+              </div>
+
+              <div style="display:flex;align-items:center;justify-content:flex-end;gap:12px;margin-top:8px;padding-top:16px;border-top:1px solid var(--border-subtle);">
+                <button class="btn btn-secondary" onclick="document.getElementById('paste-review-container').style.display='none'">Discard</button>
+                <button class="btn btn-primary" id="paste-btn-save">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>Save to Tracker</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================== -->
+        <!-- VIEW 5: CALENDAR -->
+        <!-- ===================================== -->
+        <section id="view-calendar" class="view-section">
+          <div class="calendar-container">
+            <div class="calendar-header">
+              <div class="cal-nav-wrap">
+                <button class="btn btn-icon" id="cal-btn-prev" title="Previous Month">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+                <h2 class="cal-month-title" id="cal-month-title">October 2026</h2>
+                <button class="btn btn-icon" id="cal-btn-next" title="Next Month">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+                <button class="btn btn-sm btn-secondary" id="cal-btn-today">Today</button>
+              </div>
+
+              <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+                <select id="cal-type-filter" class="filter-select">
+                  <option value="all">All Milestones</option>
+                  <option value="crypto">Crypto Projects Only</option>
+                  <option value="game">Games Only</option>
+                  <option value="claim">Claims Only</option>
+                  <option value="tge">TGEs & Releases Only</option>
+                </select>
+
+                <div class="view-switch">
+                  <button class="view-switch-btn active" id="cal-btn-month-mode">Month Grid</button>
+                  <button class="view-switch-btn" id="cal-btn-agenda-mode">Agenda List</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Month View -->
+            <div id="cal-month-container">
+              <div class="cal-grid" style="margin-bottom:8px;">
+                <div class="cal-weekday">Sun</div>
+                <div class="cal-weekday">Mon</div>
+                <div class="cal-weekday">Tue</div>
+                <div class="cal-weekday">Wed</div>
+                <div class="cal-weekday">Thu</div>
+                <div class="cal-weekday">Fri</div>
+                <div class="cal-weekday">Sat</div>
+              </div>
+              <div class="cal-grid" id="cal-month-grid">
+                <!-- Dynamically generated day cells -->
+              </div>
+            </div>
+
+            <!-- Agenda View -->
+            <div id="cal-agenda-container" style="display:none;">
+              <div id="cal-agenda-list">
+                <!-- Dynamically populated agenda items -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================== -->
+        <!-- VIEW 6: SETTINGS & DATA PORTABILITY -->
+        <!-- ===================================== -->
+        <section id="view-settings" class="view-section">
+          <!-- Local-Only Architecture Warning Banner -->
+          <div class="card" style="margin-bottom:24px;background:linear-gradient(135deg, rgba(53, 224, 181, 0.08) 0%, rgba(85, 199, 247, 0.05) 100%);border-color:var(--mint-border);">
+            <div style="display:flex;align-items:flex-start;gap:16px;">
+              <div style="width:42px;height:42px;border-radius:var(--radius-sm);background:var(--mint-dim);border:1px solid var(--mint-border);display:flex;align-items:center;justify-content:center;color:var(--mint-primary);flex-shrink:0;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:22px;height:22px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              </div>
+              <div>
+                <h3 style="font-size:1.15rem;margin-bottom:6px;">100% Client-Side Local Storage (MVP)</h3>
+                <p style="font-size:0.86rem;line-height:1.6;color:var(--text-secondary);">
+                  QuickSee stores all your project records, whitelists, contract addresses, and notes directly inside your browser profile. <strong>No data is sent to external servers or cloud services.</strong>
+                  <br />
+                  <span style="color:var(--warning);">Important:</span> If you clear your browser site data or use private browsing mode, local records will be deleted. We strongly recommend exporting a JSON backup regularly!
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Storage Statistics -->
+          <div class="metrics-grid" style="margin-bottom:28px;">
+            <div class="metric-card">
+              <span class="metric-label">Stored Records</span>
+              <div class="metric-value" id="settings-total-records">0</div>
+              <div class="metric-sub"><span id="settings-crypto-records">0</span> Crypto • <span id="settings-games-records">0</span> Games</div>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-label">Browser Storage Used</span>
+              <div class="metric-value" id="settings-storage-size">0 KB</div>
+              <div class="metric-sub">Stored in LocalStorage</div>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-label">Last Backup</span>
+              <div class="metric-value" style="font-size:1.1rem;margin-top:6px;" id="settings-last-backup">Never</div>
+              <div class="metric-sub">JSON Export Timestamp</div>
+            </div>
+          </div>
+
+          <!-- Backup & Restore (JSON) -->
+          <div class="card" style="margin-bottom:24px;">
+            <h3 style="font-size:1.15rem;margin-bottom:12px;">Full JSON Backup & Restore</h3>
+            <p style="margin-bottom:16px;">Download a complete versioned snapshot of all your Crypto Projects and Games, or restore from a previously exported backup file.</p>
+            
+            <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+              <button class="btn btn-primary" id="btn-export-json">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <span>Download Full JSON Backup</span>
+              </button>
+
+              <label class="btn btn-secondary" style="cursor:pointer;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                <span>Restore from JSON File</span>
+                <input type="file" id="file-restore-json" accept=".json" style="display:none;" />
+              </label>
+            </div>
+          </div>
+
+          <!-- CSV Portability -->
+          <div class="card" style="margin-bottom:24px;">
+            <h3 style="font-size:1.15rem;margin-bottom:12px;">CSV Import & Export</h3>
+            <p style="margin-bottom:16px;">Export your records to standard RFC 4180 CSV spreadsheets, or import spreadsheets with automated pre-validation and duplicate detection.</p>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+              <!-- Crypto Projects CSV -->
+              <div style="background:var(--surface-elevated);padding:18px;border-radius:var(--radius-sm);border:1px solid var(--border-subtle);display:flex;flex-direction:column;gap:12px;">
+                <h4 style="font-size:0.95rem;color:var(--mint-primary);">Crypto Projects (Airdrops & Whitelists)</h4>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                  <button class="btn btn-sm btn-outline-mint" id="btn-export-crypto-csv">Export Crypto CSV</button>
+                  <label class="btn btn-sm btn-secondary" style="cursor:pointer;">
+                    <span>Import Crypto CSV</span>
+                    <input type="file" id="file-import-crypto-csv" accept=".csv" style="display:none;" />
+                  </label>
+                </div>
+              </div>
+
+              <!-- Web3 Games CSV -->
+              <div style="background:var(--surface-elevated);padding:18px;border-radius:var(--radius-sm);border:1px solid var(--border-subtle);display:flex;flex-direction:column;gap:12px;">
+                <h4 style="font-size:0.95rem;color:var(--cyan-accent);">Web3 Games</h4>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                  <button class="btn btn-sm btn-outline-mint" id="btn-export-games-csv">Export Games CSV</button>
+                  <label class="btn btn-sm btn-secondary" style="cursor:pointer;">
+                    <span>Import Games CSV</span>
+                    <input type="file" id="file-import-games-csv" accept=".csv" style="display:none;" />
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Preferences & Testing Helpers -->
+          <div class="card">
+            <h3 style="font-size:1.15rem;margin-bottom:16px;">Display Preferences & Data Maintenance</h3>
+            <div class="form-grid" style="margin-bottom:20px;">
+              <div class="form-group">
+                <label class="form-label">Default Milestone Window</label>
+                <select id="pref-milestone-window" class="form-control">
+                  <option value="7">7 Days</option>
+                  <option value="30">30 Days</option>
+                  <option value="90">90 Days</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Default Startup View</label>
+                <select id="pref-default-view" class="form-control">
+                  <option value="dashboard">Dashboard</option>
+                  <option value="crypto">Crypto Projects</option>
+                  <option value="games">Web3 Games</option>
+                  <option value="quick-paste">Quick Paste</option>
+                  <option value="calendar">Calendar</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:12px;flex-wrap:wrap;border-top:1px solid var(--border-subtle);padding-top:16px;">
+              <button class="btn btn-secondary" id="btn-seed-sample-data">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                <span>Load Curated Sample Data</span>
+              </button>
+              <button class="btn btn-danger" id="btn-clear-all-data" style="margin-left:auto;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                <span>Clear All Local Records</span>
+              </button>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- ===================================== -->
+  <!-- GLOBAL MODALS & DRAWERS -->
+  <!-- ===================================== -->
+
+  <!-- Modal: Record Editor (Add / Edit) -->
+  <div id="modal-record-editor" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-editor-title">Add Record</h3>
+        <button class="btn btn-icon" data-close-modal title="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <form id="form-record-editor">
+        <div class="modal-body" id="modal-editor-fields">
+          <!-- Dynamically populated based on record type -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal>Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btn-editor-submit">Save Record</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Record Detail Drawer -->
+  <div id="modal-record-drawer" class="modal-overlay">
+    <div class="modal-content" style="max-width:580px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="drawer-record-title">Record Details</h3>
+        <button class="btn btn-icon" data-close-modal title="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body" id="drawer-record-body">
+        <!-- Injected dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger btn-sm" id="drawer-btn-delete" style="margin-right:auto;">Delete Record</button>
+        <button class="btn btn-secondary btn-sm" data-close-modal>Close</button>
+        <button class="btn btn-primary btn-sm" id="drawer-btn-edit">Edit Record</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Confirmation Dialog -->
+  <div id="modal-confirm" class="modal-overlay">
+    <div class="modal-content" style="max-width:440px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Confirm Action</h3>
+        <button class="btn btn-icon" data-close-modal title="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body modal-confirm-body">
+        <!-- Message content -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close-modal>Cancel</button>
+        <button class="btn btn-danger" id="btn-confirm-action">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: CSV Import Preview & Validation -->
+  <div id="modal-csv-preview" class="modal-overlay">
+    <div class="modal-content" style="max-width:680px;">
+      <div class="modal-header">
+        <h3 class="modal-title">CSV Import Validation & Preview</h3>
+        <button class="btn btn-icon" data-close-modal title="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="csv-preview-summary" style="background:var(--surface-elevated);padding:14px;border-radius:var(--radius-sm);border:1px solid var(--border-subtle);margin-bottom:12px;"></div>
+        <div id="csv-preview-table"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close-modal>Cancel</button>
+        <button class="btn btn-primary" id="btn-csv-commit-import">Import Valid Records</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <!-- Application Entry Point (ES Module) -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

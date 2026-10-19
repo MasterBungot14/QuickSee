@@ -1,0 +1,77 @@
+/* QuickSee Design System - Variables & Tokens */
+:root {
+  /* Brand Palette from Client Brief */
+  --bg-dark: #0B1220;
+  --surface-card: #111C2E;
+  --surface-card-hover: #152238;
+  --surface-elevated: #17263A;
+  --surface-elevated-hover: #1D3049;
+  --surface-overlay: rgba(11, 18, 32, 0.85);
+  --surface-input: #0E1726;
+
+  /* Accent Colors */
+  --mint-primary: #35E0B5;
+  --mint-hover: #2cd4a8;
+  --mint-dim: rgba(53, 224, 181, 0.15);
+  --mint-glow: rgba(53, 224, 181, 0.25);
+  --mint-border: rgba(53, 224, 181, 0.35);
+
+  --cyan-accent: #55C7F7;
+  --cyan-dim: rgba(85, 199, 247, 0.15);
+  --cyan-glow: rgba(85, 199, 247, 0.25);
+  --cyan-border: rgba(85, 199, 247, 0.35);
+
+  --purple-accent: #A78BFA;
+  --purple-dim: rgba(167, 139, 250, 0.15);
+
+  /* Status Colors */
+  --warning: #F5B942;
+  --warning-dim: rgba(245, 185, 66, 0.15);
+  --warning-border: rgba(245, 185, 66, 0.3);
+
+  --error: #F87171;
+  --error-dim: rgba(248, 113, 113, 0.15);
+  --error-border: rgba(248, 113, 113, 0.3);
+
+  --success: #34D399;
+  --success-dim: rgba(52, 211, 153, 0.15);
+  --success-border: rgba(52, 211, 153, 0.3);
+
+  /* Text Colors */
+  --text-primary: #F4F7FB;
+  --text-secondary: #9AAEC3;
+  --text-muted: #62758D;
+  --text-inverse: #0B1220;
+
+  /* Borders & Dividers */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-medium: rgba(255, 255, 255, 0.14);
+  --border-strong: rgba(255, 255, 255, 0.22);
+
+  /* Typography */
+  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: 'Outfit', 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', "SF Mono", Consolas, Menlo, monospace;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.45);
+  --shadow-glow-mint: 0 0 24px rgba(53, 224, 181, 0.18);
+  --shadow-glow-cyan: 0 0 24px rgba(85, 199, 247, 0.18);
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 240ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 350ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layout */
+  --sidebar-width: 260px;
+  --sidebar-collapsed-width: 72px;
+  --header-height: 68px;
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+}
